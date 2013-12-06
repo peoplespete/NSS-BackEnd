@@ -2,7 +2,7 @@ puts "What is your name?"
 name = gets.chomp
 name.downcase!
 
-for i in 0..name.length-1
+for i in 0...name.length
   if name[i] == 'a' or name[i] == 'e' or name[i] == 'i' or name[i] == 'o' or name[i] == 'u'
     article = "an"
   else
