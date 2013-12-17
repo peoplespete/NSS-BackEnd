@@ -1,7 +1,7 @@
-puts "What is your name?"
+puts "What's your name?"
 name = gets.chomp
 name.downcase!
-
+# "\e[1;36;44m" #can do 31 - 38 and 41 - 48
 for i in 0...name.length
   if name[i] == 'a' or name[i] == 'e' or name[i] == 'i' or name[i] == 'o' or name[i] == 'u'
     article = "an"
@@ -12,6 +12,7 @@ for i in 0...name.length
   puts "Give me #{article}... #{letter}"
 end
 puts "#{name.upcase}'s just GRAND!"
+puts "Your name backwards is #{name.reverse}"
 # print has no line break
 
 # count = name.length
