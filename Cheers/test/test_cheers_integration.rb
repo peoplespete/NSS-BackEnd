@@ -52,3 +52,22 @@ EOS
 
 #   # But what about names with vowels?!!
 end
+
+# use string =~ /sdfkjljk/
+# this takes a string and returns true or false if it is match according to regex
+
+
+def test_a_name_with_no_vowels
+    shell_output = `ruby cheers.rb brt`
+    expected_output = <<EOS
+What's your name?
+Give me a... B
+Give me a... R
+Give me a... T
+BRT's just GRAND!
+Your name backwards is trb
+EOS
+    assert_equal shell_output, expected_output
+  end
+
+
