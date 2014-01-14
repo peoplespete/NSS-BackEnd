@@ -5,13 +5,16 @@ SELECT EmployeeID, FirstName, LastName FROM Employees
   ORDER BY FirstName, LastName
 
 -- Find the name of the female "sales representative" who work in London and report to the Sales Manager Mr. Steven Buchanan. (Please do not enter any criterion under the "ReportsTo" field when answering this query.)
-
-SELECT EmployeeID, FirstName, LastName From Employees
-  WHERE Title = "Sales Representative" AND
-        City = "London" AND
-        (TitleOfCourtesy = "Mrs." OR TitleOfCourtesy = "Ms.") AND
-        ReportsTo = 5
-  ORDER BY FirstName, LastName
+-- THIS ONE IS A TABLE JOINED TO ITSELF BY THE EMPLOYEEID AND REPORTSTO COLUMN
+SELECT Employees.EmployeeID, Employees.FirstName, Employees.LastName
+  From Employees INNER JOIN Employees Managers
+  ON Employees.ReportsTo = Managers.EmployeeID
+  WHERE Employees.Title = "Sales Representative" AND
+        Employees.City = "London" AND
+        Employees.TitleOfCourtesy IN ("Mrs.", "Ms.") AND
+        Managers.LastName = "Buchanan" AND
+        Managers.FirstName = "Steven"
+  ORDER BY Employees.FirstName, Employees.LastName
 
 -- Find the names and addresses of all the suppliers which can provide “tofu”. (Note: You should be able to find two companies.)
 
@@ -40,13 +43,15 @@ SELECT Products.ProductID, Products.ProductName, Suppliers.CompanyName
 
 -- THIS ONE COULD BE TAKEN DIFFERENT WAYS.  IF YOU TOOK IT AS THE COMPANIES ORDERING (CUSTOMERS) ARE THE ONES BASED IN LONDON
 -- THE CODE BELOW WOULD NEED TO BE CHANGED.  I TOOK IT TO MEAN THAT THE ORDERS WERE BEING FULFILLED BY SUPPLIERS BASED IN LONDON
+-- IF YOU PUT DISTINCT RIGHT AFTER SELECT IT WILL ONLY LIST DISTINCT ONES
+-- IF YOU PUT GROUP BY AT THE END...IT DOES SOMETHING
 
 SELECT Products.ProductName, Orders.OrderID, OrderDetails.UnitPrice, OrderDetails.Quantity, Employees.FirstName, Employees.LastName, Suppliers.City
-  FROM Employees INNER JOIN Orders
-    ON Employees.EmployeeID = Orders.EmployeeID JOIN OrderDetails
-    ON Orders.OrderID = OrderDetails.OrderID JOIN Products
-    ON OrderDetails.ProductID = Products.ProductID JOIN Suppliers
-    ON Products.SupplierID = Suppliers.SupplierID
+  FROM Employees
+  INNER JOIN Orders ON Employees.EmployeeID = Orders.EmployeeID
+  INNER JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
+  INNER JOIN Products ON OrderDetails.ProductID = Products.ProductID
+  INNER JOIN Suppliers ON Products.SupplierID = Suppliers.SupplierID
   WHERE Employees.LastName = "Dodsworth" AND
         Employees.FirstName = "Anne" AND
         Suppliers.City = "London"
